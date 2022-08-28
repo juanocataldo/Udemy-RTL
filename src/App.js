@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-
-import Home from './Home';
+import { Footer } from './components/Footer/Footer';
+import { Home } from './components/Home/Home';
 
 export default function App() {
   return (
@@ -8,6 +8,8 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} exact />
       </Routes>
+      <Footer/>
     </BrowserRouter>
+
   );
 }
