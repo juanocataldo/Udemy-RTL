@@ -31,7 +31,6 @@ describe('Testing Form Error handlers', () => {
         expect(errorHandler).toBeInTheDocument()
     })
     test('Should not throw any alerts if the fields are filled', () => {
-        const submitBtn = screen.getByRole('button', {name: /create/i})
         const playerName = screen.getByRole('textbox')
         const status = screen.getByRole('combobox')
         const ranking = screen.getByPlaceholderText(/ranking/i)

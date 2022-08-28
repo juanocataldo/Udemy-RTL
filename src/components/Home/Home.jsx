@@ -6,13 +6,20 @@ import { CreatePlayer } from "../CreatePlayer/CreatePlayer"
 
 export function Home(){
 
-    // const users = [
-    //     {name: "juano", img:'', ranking:1},
-    //     {name: "cande", img:'', ranking:2},
-    //     {name: "carlos", img:'', ranking:3}
-    // ]
-
     const [topThree, setTopThree] = useState([])
+    const [search, setSearch] = useState('')
+    const [topTen, setTopTen] = useState([
+        { name: 'Cande', img: '' , ranking:2},
+        { name: 'Carlos', img: '' , ranking:3},
+        { name: 'Juano', img: '', ranking:1 },
+        { name: 'Pedro', img: '', ranking:4 },
+        { name: 'Maxi', img: '', ranking:7 },
+        { name: 'Francisco', img: '', ranking:5 },
+        { name: 'Julian', img: '', ranking:6 },
+        { name: 'Michael', img: '', ranking:8 },
+        { name: 'Franco', img: '', ranking:9 },
+        { name: 'Santino', img: '', ranking:10 }
+    ])
     const [error, setError] = useState(false)
 
     const topThreeHandler = () => {
@@ -25,10 +32,29 @@ export function Home(){
         })
         .catch(error => setError(true))
     }
+    const topTenHandler = () => {
+        fetch('http://localhost:3030/topten')
+        .then(data => data.json())
+        .then(res => {
+            setTopTen(res)
+        })
+        .catch(error => setError(true))
+    }
 
     useEffect(() => {
         topThreeHandler()
+        topTenHandler()
     },[])
+
+    const searchPlayer = () => {
+        const filter = topTen.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
+        setTopTen(filter)
+        console.log(filter)
+    }
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
+    }
 
     return <div>
         HOME
@@ -60,5 +86,14 @@ export function Home(){
         <img src="" alt="player_img5" />
 
         <CreatePlayer />
+
+        <h1>Top 10</h1>
+        <label>Filter by name</label>
+        <input type="text" placeholder="playername" onChange={handleSearch} />
+        <button onClick={searchPlayer}>Search</button>
+        <hr />
+        <ul>
+            {topTen && topTen.map(p => <li>{p.name}</li>)}
+        </ul>
     </div>
 }
